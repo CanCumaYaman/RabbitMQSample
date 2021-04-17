@@ -20,7 +20,7 @@ namespace RabbitMQ.Console.Consumer
             var conneciton = factory.CreateConnection();
             var channel = conneciton.CreateModel();
             channel.QueueDeclare(
-                queue:"TakeOrderQueue",
+                queue:"TakeEmployeeQueue",
                 durable:false,
                 exclusive:false,
                 autoDelete:false,
@@ -30,12 +30,12 @@ namespace RabbitMQ.Console.Consumer
             consumer.Received += (model, mq) =>
               {
                   var data = Encoding.UTF8.GetString(mq.Body.ToArray());
-                  var consumeData = JsonConvert.DeserializeObject<TakeOrderRequest>(data);
-                  System.Console.WriteLine(String.Format("{0} ID user has bought the product named {1}", consumeData.CustomerId, consumeData.ProductName));
+                  var consumeData = JsonConvert.DeserializeObject<TakeeEmployeeRequest>(data);
+                  System.Console.WriteLine(String.Format("{0} ID user has added the employee named {1}", consumeData.EmployeeId, consumeData.EmployeeName));
 
               };
             channel.BasicConsume(
-                queue:"TakeOrderQueue",
+                queue:"TakeEmployeeQueue",
                 autoAck:true,
                 consumer:consumer
                 );

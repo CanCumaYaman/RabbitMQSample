@@ -15,8 +15,8 @@ namespace RabbitMQ.Web.Api.Controllers
     [ApiController]
     public class ShoppingController : ControllerBase
     {
-        [HttpPost("TakeOrder")]
-        public IActionResult TakeOrder(TakeOrderRequest request)
+        [HttpPost("TakeEmployee")]
+        public IActionResult TakeOrder(TakeeEmployeeRequest request)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace RabbitMQ.Web.Api.Controllers
                 var connection = factory.CreateConnection();
                 var channel = connection.CreateModel();
                 channel.QueueDeclare(
-                    queue: "TakeOrderQueue",
+                    queue: "TakeEmployeeQueue",
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -37,12 +37,12 @@ namespace RabbitMQ.Web.Api.Controllers
                     );
                 for(int i = 1; i <= 100; i++)
                 {
-                    request.CustomerId = i;
+                    request.EmployeeId = i;
                     var data = JsonConvert.SerializeObject(request);
                     var byteData = Encoding.UTF8.GetBytes(data);
                     channel.BasicPublish(
                         exchange: "",
-                        routingKey: "TakeOrderQueue",
+                        routingKey: "TakeEmployeeQueue",
                         basicProperties: null,
                         body: byteData
                         );

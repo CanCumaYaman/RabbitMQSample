@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RabbitMQ.Common.Models
 {
-    public class TakeOrderRequest
+    public class TakeeEmployeeRequest
     {
-        public int CustomerId { get; set; }
-        public string ProductName { get; set; }
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
     }
 }
